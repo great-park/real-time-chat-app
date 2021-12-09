@@ -1,7 +1,7 @@
 #Noom
 
 Zoom Clone using NodeJs, WebRTC and Websockets"# zoom-clone" 
-
+노마드 코더 강의를 보며 연습한 코드입니다.
 
 
 Nodemon - 변경사항이 있을 시 서버를 재시작
@@ -15,3 +15,4 @@ express를 import해서 express 어플리케이션을 구성, view engine은 Pug
 * app.get("/*", (req,res)=> res.redirect("/")); : 해당 프로젝트에서 다른 Url은 사용하지 않을 계획이므로, redirectin을 적용시킨다.
 
 public - FrontEnd 구성
+
