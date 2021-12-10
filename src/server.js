@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 
 const app = express();
 
@@ -9,4 +10,4 @@ app.get("/", (req,res) => res.render("home")); //home.pug를 render 해주는 ro
 app.get("/*", (req,res)=> res.redirect("/")); //redirection
 
 const handelListen = () => console.log(`Listening on http://localhost:3000`);
-app.listen(3000, handelListen); 
+

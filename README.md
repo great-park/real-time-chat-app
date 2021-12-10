@@ -16,5 +16,6 @@ express를 import해서 express 어플리케이션을 구성, view engine은 Pug
 
 public - FrontEnd 구성
 
-* HTTP vs WebSocket
+프로토콜 - HTTP vs WebSocket
 ![image](https://user-images.githubusercontent.com/83508073/145317505-6d7e185f-557a-47bd-8068-58b5b462dde1.png)
+http - stateless, 유저와 backend사이에 아무런 연결이 없다. req에 대해 res주고 끝
