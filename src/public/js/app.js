@@ -1,15 +1,21 @@
-//server로 socket 보내고 받기
-//여기서의 socket - 서버로의 connection
 const messageList = document.querySelector("ul");
-const messageForm = document.querySelector("form");
+const messageForm = document.querySelector("#message");
+const nickForm = document.querySelector("#nick");
 const socket = new WebSocket(`ws://${window.location.host}`);
+
+function makeMessage(type, payload) {
+  const msg = { type, payload }; //string을 Json으로 변환해서 backend로 전달
+  return JSON.stringify(msg);
+}
 
 socket.addEventListener("open", () => {
   console.log("Connected to Server ✅");
 });
 
 socket.addEventListener("message", (message) => {
-  console.log("New message: ", message.data);
+  const li = document.createElement("li");
+  li.innerText = message.data;
+  messageList.append(li); //화면에 띄우기
 });
 
 socket.addEventListener("close", () => {
@@ -19,8 +25,15 @@ socket.addEventListener("close", () => {
 function handleSubmit(event) {
   event.preventDefault();
   const input = messageForm.querySelector("input");
-  socket.send(input.value); //front에서 받은 input backend로 넘기기
+  socket.send(makeMessage("new_message", input.value)); //backend로 넘기기
   input.value = "";
 }
 
+function handleNickSubmit(event) {
+  event.preventDefault();
+  const input = nickForm.querySelector("input");
+  socket.send(makeMessage("nickname", input.value)); //backend로 넘기기
+}
+
 messageForm.addEventListener("submit", handleSubmit);
+nickForm.addEventListener("submit", handleNickSubmit);
