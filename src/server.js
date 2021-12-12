@@ -22,17 +22,20 @@ function onSocketClose() {
   console.log("Disconnected from the Browser ❌");
 }
 
-function onSocketMessage(message) {
-  console.log(message.toString("utf8"));
-}
+const sockets = []; //connection한 브라우저
+
 //특정 event -> 지정한 콜백을 실행, ws에서 정해진 event와 콜백명을 쓰면 됨
 //frontend로 socket 주고 받기
 //여기서의  socket - 브라우저와의 connetction
 wss.on("connection", (socket) => {
+  sockets.push(socket);
   //listenr 설정
   console.log("Connected to Browser ✅");
   socket.on("close", onSocketClose);
-  socket.on("message", onSocketMessage);
+  socket.on("message", (message) => {
+    const messageString = message.toString("utf8");
+    sockets.forEach((eachSocket) => eachSocket.send(messageString));
+  });
   socket.send("hello");
 });
 
