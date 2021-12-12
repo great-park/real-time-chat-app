@@ -1,7 +1,6 @@
 #Noom
 
 Zoom Clone using NodeJs, WebRTC and Websockets"# zoom-clone"
-노마드 코더 강의를 보며 연습한 코드입니다.
 
 Nodemon - 변경사항이 있을 시 서버를 재시작
 
@@ -16,10 +15,3 @@ express를 import해서 express 어플리케이션을 구성, view engine은 Pug
 - app.get("/\*", (req,res)=> res.redirect("/")); : 해당 프로젝트에서 다른 Url은 사용하지 않을 계획이므로, redirectin을 적용시킨다.
 
 public - FrontEnd 구성
-
-프로토콜 - HTTP vs WebSocket
-![image](https://user-images.githubusercontent.com/83508073/145317505-6d7e185f-557a-47bd-8068-58b5b462dde1.png)
-http - stateless, 유저와 backend사이에 아무런 연결이 없다. req에 대해 res주고 끝
-ws - bi-directional connection 생성 서버와 클라이언트(다른 서버) 간 통신이 자유롭게 가능
-
-http로 프론트엔드에 필요한 res를 주고, ws로 필요한 기능들을 구현할 계획
