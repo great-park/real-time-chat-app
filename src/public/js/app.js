@@ -4,7 +4,7 @@ const nickForm = document.querySelector("#nick");
 const socket = new WebSocket(`ws://${window.location.host}`);
 
 function makeMessage(type, payload) {
-  const msg = { type, payload }; //string을 Json으로 변환해서 backend로 전달
+  const msg = { type, payload }; //JSON을 string으로 변환해서 backend로 전달
   return JSON.stringify(msg);
 }
 
@@ -33,6 +33,7 @@ function handleNickSubmit(event) {
   event.preventDefault();
   const input = nickForm.querySelector("input");
   socket.send(makeMessage("nickname", input.value)); //backend로 넘기기
+  input.value = "";
 }
 
 messageForm.addEventListener("submit", handleSubmit);

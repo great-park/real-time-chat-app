@@ -22,12 +22,23 @@ const sockets = []; //connection한 브라우저
 
 wss.on("connection", (socket) => {
   sockets.push(socket);
+  socket["nickname"] = "anony"; //nickname 안 정한 경우
   //listenr 설정
   console.log("Connected to Browser ✅");
   socket.on("close", onSocketClose);
-  socket.on("message", (message) => {
-    const messageString = message.toString("utf8");
-    sockets.forEach((eachSocket) => eachSocket.send(messageString));
+  socket.on("message", (msg) => {
+    const message = JSON.parse(msg); //string을  JSON으로
+    //message의 type에 따라
+    switch (message.type) {
+      case "new_message":
+        sockets.forEach((eachSocket) =>
+          eachSocket.send(`${socket.nickname}: ${message.payload}`)
+        );
+        break;
+      case "nickname":
+        socket["nickname"] = message.payload; //socket에 저장
+        break;
+    }
   });
 });
 
