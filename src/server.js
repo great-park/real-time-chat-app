@@ -25,6 +25,7 @@ io.on("connection", (socket) => {
     //backend에서 콜백을 호출하지만 frontend에서 실행됨
     socket.join(roomName);
     done(); //방에 들어왔을 때 app.js에서 전달받은 showRoom을 실행
+    socket.to(roomName).emit("Welcome");
   });
 });
 
