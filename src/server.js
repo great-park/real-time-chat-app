@@ -15,13 +15,10 @@ const httpServer = http.createServer(app);
 const io = SocketIO(httpServer);
 
 io.on("connection", (socket) => {
-  socket.on("enter_room", (msg, done) => {
+  socket.on("enter_room", (roomName, done) => {
     //event의 name, front에서 전달받은 JSON objet와 콜백
     //backend에서 콜백을 호출하지만 frontend에서 실행됨
-    console.log(msg);
-    setTimeout(() => {
-      done();
-    }, 10000);
+    socket.join(roomName);
   });
 });
 
