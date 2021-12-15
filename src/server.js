@@ -23,10 +23,8 @@ io.on("connection", (socket) => {
   socket.on("enter_room", (roomName, done) => {
     //event의 name, front에서 전달받은 JSON objet와 콜백
     //backend에서 콜백을 호출하지만 frontend에서 실행됨
-    console.log(socket.id); //확인 결과, user의 id는 user가 있는 room의 id와 동일하다
-    console.log(socket.rooms); // Set { <socket.id> }
     socket.join(roomName);
-    console.log(socket.rooms); // Set { <socket.id>, "room1" }
+    done(); //방에 들어왔을 때 app.js에서 전달받은 showRoom을 실행
   });
 });
 
