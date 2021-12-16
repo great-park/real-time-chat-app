@@ -1,6 +1,5 @@
-#Noom
-
 Zoom Clone using NodeJs, WebRTC and Websockets"# zoom-clone"
++ socket.io server API 문서 참고
 
 Nodemon - 변경사항이 있을 시 서버를 재시작
 
