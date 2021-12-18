@@ -35,3 +35,7 @@ form.addEventListener("submit", handleRoomSubmit);
 socket.on("Welcome", () => {
   addMessage("Someone joined!");
 });
+
+socket.on("bye", () => {
+  addMessage("Someone left");
+});
