@@ -27,6 +27,9 @@ io.on("connection", (socket) => {
     done(); //방에 들어왔을 때 app.js에서 전달받은 showRoom을 실행
     socket.to(roomName).emit("Welcome");
   });
+  socket.on("disconnecting", () => {
+    socket.rooms.forEach((room) => socket.to(room).emit("bye"));
+  });
 });
 
 httpServer.listen(3000, handelListen);
