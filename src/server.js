@@ -20,6 +20,8 @@ io.on("connection", (socket) => {
   socket.onAny((event) => {
     console.log(`Socket Event:${event}`);
   });
+
+  /* 채팅방 입장 */
   socket.on("enter_room", (roomName, done) => {
     //event의 name, front에서 전달받은 JSON objet와 콜백
     //backend에서 콜백을 호출하지만 frontend에서 실행됨
@@ -27,8 +29,16 @@ io.on("connection", (socket) => {
     done(); //방에 들어왔을 때 app.js에서 전달받은 showRoom을 실행
     socket.to(roomName).emit("Welcome");
   });
+
+  /* 연결 끊김 */
   socket.on("disconnecting", () => {
     socket.rooms.forEach((room) => socket.to(room).emit("bye"));
+  });
+
+  /* 메세지 입력 */
+  socket.on("new_message", (msg, room, done) => {
+    socket.to(room).emit("new_message", msg);
+    done(); //frontend에서 실행될 것
   });
 });
 
