@@ -52,12 +52,12 @@ function handleRoomSubmit(event) {
 }
 form.addEventListener("submit", handleRoomSubmit);
 
-socket.on("Welcome", () => {
-  addMessage("Someone joined!");
+socket.on("Welcome", (user) => {
+  addMessage(`${user} joined`);
 });
 
-socket.on("bye", () => {
-  addMessage("Someone left");
+socket.on("bye", (left) => {
+  addMessage(`${left} left`);
 });
 
 socket.on("new_message", addMessage); // ===  (msg)=> {addMessage(msg)}  같은 동작
