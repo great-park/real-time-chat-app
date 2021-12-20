@@ -17,6 +17,7 @@ const io = SocketIO(httpServer);
 
 //socket.io server API 문서 참고 ->사용해보니 websocket보다 기능이 많고 편리하다.
 io.on("connection", (socket) => {
+  socket["nickname"] = "익명";
   socket.onAny((event) => {
     console.log(`Socket Event:${event}`);
   });
@@ -40,6 +41,9 @@ io.on("connection", (socket) => {
     socket.to(room).emit("new_message", msg);
     done(); //frontend에서 실행될 것
   });
+
+  /* 닉네임 설정 */
+  socket.on("nickname", (nickname) => (socket["nickname"] = nickname));
 });
 
 httpServer.listen(3000, handelListen);
