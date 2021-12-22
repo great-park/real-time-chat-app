@@ -23,12 +23,13 @@ io.on("connection", (socket) => {
   });
 
   /* 채팅방 입장 */
-  socket.on("enter_room", (roomName, done) => {
+  socket.on("enter_room", (roomName, nickname, done) => {
     //event의 name, front에서 전달받은 JSON objet와 콜백
     //backend에서 콜백을 호출하지만 frontend에서 실행됨
+    socket["nickname"] = nickname;
     socket.join(roomName);
-    done(); //방에 들어왔을 때 app.js에서 전달받은 showRoom을 실행
     socket.to(roomName).emit("Welcome", socket.nickname);
+    done(); //방에 들어왔을 때 app.js에서 전달받은 showRoom을 실행
   });
 
   /* 연결 끊김 */
