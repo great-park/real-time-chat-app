@@ -24,8 +24,9 @@ io.on("connection", (socket) => {
 
   /* 채팅방 입장 */
   socket.on("enter_room", (roomName, nickname, done) => {
-    //event의 name, front에서 전달받은 JSON objet와 콜백
-    //backend에서 콜백을 호출하지만 frontend에서 실행됨
+    socket.onAny((event) => {
+      console.log(`Socket Event : ${event}`);
+    });
     socket["nickname"] = nickname;
     socket.join(roomName);
     socket.to(roomName).emit("Welcome", socket.nickname);
