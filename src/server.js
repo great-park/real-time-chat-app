@@ -15,6 +15,23 @@ const handelListen = () => console.log(`Listening on http://localhost:3000`);
 const httpServer = http.createServer(app);
 const io = SocketIO(httpServer);
 
+function publicRooms(){
+  const {
+    sockets: {
+      adapter: {sids, rooms},
+    }.
+  } = io;
+  // const sids = io.sockets.adapter.sids;
+  // const rooms = io.sockets.adapter.rooms;
+  const publicRooms = [];
+  rooms.forEach((_, key)=>{
+    if(sids.get(key) === undefined){
+      publicRooms.push(key);
+    }
+  });
+  return publicRooms;
+}
+
 //socket.io server API 문서 참고 ->사용해보니 websocket보다 기능이 많고 편리하다.
 io.on("connection", (socket) => {
   socket.onAny((event) => {
