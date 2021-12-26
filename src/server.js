@@ -17,7 +17,6 @@ const io = SocketIO(httpServer);
 
 //socket.io server API 문서 참고 ->사용해보니 websocket보다 기능이 많고 편리하다.
 io.on("connection", (socket) => {
-  socket["nickname"] = "익명";
   socket.onAny((event) => {
     console.log(`Socket Event:${event}`);
   });
