@@ -64,3 +64,17 @@ socket.on("bye", (left) => {
 });
 
 socket.on("new_message", addMessage); // ===  (msg)=> {addMessage(msg)}  같은 동작
+
+socket.on("room_change", (rooms) => {
+  const roomList = welcome.querySelector("ul");
+  roomList.innerHTML = ""; //다른 방을 목록에 추가할 때 이전 방이 같이 달려옴
+  //방이 사라지면, 지우기
+  if (rooms.length === 0) {
+    return;
+  }
+  rooms.forEach((room) => {
+    const li = document.createElement("li");
+    li.innerText = room;
+    roomList.append(li);
+  });
+});

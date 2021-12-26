@@ -15,17 +15,17 @@ const handelListen = () => console.log(`Listening on http://localhost:3000`);
 const httpServer = http.createServer(app);
 const io = SocketIO(httpServer);
 
-function publicRooms(){
+function publicRooms() {
   const {
     sockets: {
-      adapter: {sids, rooms},
-    }.
+      adapter: { sids, rooms },
+    },
   } = io;
   // const sids = io.sockets.adapter.sids;
   // const rooms = io.sockets.adapter.rooms;
   const publicRooms = [];
-  rooms.forEach((_, key)=>{
-    if(sids.get(key) === undefined){
+  rooms.forEach((_, key) => {
+    if (sids.get(key) === undefined) {
       publicRooms.push(key);
     }
   });
@@ -45,8 +45,10 @@ io.on("connection", (socket) => {
     });
     socket["nickname"] = nickname;
     socket.join(roomName);
-    socket.to(roomName).emit("Welcome", socket.nickname);
     done(); //방에 들어왔을 때 app.js에서 전달받은 showRoom을 실행
+    socket.to(roomName).emit("Welcome", socket.nickname);
+
+    io.sockets.emit("room_change", publicRooms()); //모든 socket으로 공지
   });
 
   /* 연결 끊김 */
@@ -54,6 +56,9 @@ io.on("connection", (socket) => {
     socket.rooms.forEach((room) =>
       socket.to(room).emit("bye", socket.nickname)
     );
+  });
+  socket.on("disconnect", () => {
+    io.sockets.emit("room_change", publicRooms()); //모든 socket으로 공지
   });
 
   /* 메세지 입력 */
