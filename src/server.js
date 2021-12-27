@@ -32,6 +32,10 @@ function publicRooms() {
   return publicRooms;
 }
 
+function countRoom(roomName) {
+  return io.sockets.adapter.rooms.get(roomName)?.size;
+}
+
 //socket.io server API 문서 참고 ->사용해보니 websocket보다 기능이 많고 편리하다.
 io.on("connection", (socket) => {
   socket.onAny((event) => {
@@ -46,15 +50,16 @@ io.on("connection", (socket) => {
     socket["nickname"] = nickname;
     socket.join(roomName);
     done(); //방에 들어왔을 때 app.js에서 전달받은 showRoom을 실행
-    socket.to(roomName).emit("Welcome", socket.nickname);
+    socket.to(roomName).emit("Welcome", socket.nickname, countRoom(roomName));
 
     io.sockets.emit("room_change", publicRooms()); //모든 socket으로 공지
   });
 
-  /* 연결 끊김 */
+  /* 연결 끊김 */ //disconnecting의 경우 퇴장하기 직전, 방을 떠나지 않음
   socket.on("disconnecting", () => {
-    socket.rooms.forEach((room) =>
-      socket.to(room).emit("bye", socket.nickname)
+    socket.rooms.forEach(
+      (room) =>
+        socket.to(room).emit("bye", socket.nickname, countRoom(room) - 1) //퇴장하기 직전이라 우리방을 포함하므로 1을 빼줌
     );
   });
   socket.on("disconnect", () => {
